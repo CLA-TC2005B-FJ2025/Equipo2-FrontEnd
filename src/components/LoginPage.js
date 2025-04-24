@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Importar Link
 
 function LoginPage({ handleLogin }) {
   const [email, setEmail] = useState('');
@@ -6,8 +7,7 @@ function LoginPage({ handleLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí debes validar la información y simular login
-    handleLogin(); // Llama a la función de login para cambiar el estado
+    handleLogin(); // Simula el login
   };
 
   return (
@@ -34,6 +34,11 @@ function LoginPage({ handleLogin }) {
         />
         <button type="submit">Iniciar Sesión</button>
       </form>
+
+      {/* Enlace para redirigir a otra página */}
+      <div className="redirect">
+        <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
+      </div>
     </div>
   );
 }

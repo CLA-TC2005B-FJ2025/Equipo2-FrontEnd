@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import { Routes, Route, Navigate } from 'react-router-dom'; // Usar Routes y Route
+import { Routes, Route, Navigate } from 'react-router-dom'; // Usamos Routes y Route
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import GamePage from './components/GamePage'; // Página del juego
@@ -14,11 +14,11 @@ function App() {
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true); // Simula inicio de sesión
+    setIsLoggedIn(true); // Simula el inicio de sesión
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // Simula cierre de sesión
+    setIsLoggedIn(false); // Simula el cierre de sesión
   };
 
   return (
@@ -54,7 +54,7 @@ function App() {
           isLoggedIn ? (
             <GamePage handleLogout={handleLogout} />
           ) : (
-            <Navigate to="/login" /> // Redirigir a login si no está logueado
+            <Navigate to="/login" /> // Redirige a login si no está logueado
           )
         } />
 
