@@ -11,7 +11,7 @@ function Header() {
         <ul>
           <li><Link to="/game">Juego</Link></li>
           <li><Link to="/howtoplay">¿Cómo jugar?</Link></li>
-          <li><button onClick={() => {}}>Cerrar sesión</button></li>
+          <li><button>Salir</button></li>
         </ul>
       </nav>
     </header>

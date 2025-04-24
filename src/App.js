@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './style.css';
-import { Routes, Route, Navigate } from 'react-router-dom'; // Usamos Routes y Route
+import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
-import GamePage from './components/GamePage'; // Página del juego
-import { AuthProvider } from './contexts/AuthContext'; // Importa el contexto de autenticación
+import GamePage from './components/GamePage';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -15,62 +15,88 @@ function App() {
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true); // Simula el inicio de sesión
+    setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false); // Simula el cierre de sesión
+    setIsLoggedIn(false);
   };
 
   return (
     <AuthProvider>
       <Routes>
-        {/* Ruta de inicio de sesión */}
-        <Route path="/login" element={
-          <div className={`container ${isSignUp ? 'active' : ''}`}>
-            {isSignUp ? (
-              <RegisterPage handleLogin={handleLogin} />
-            ) : (
-              <LoginPage handleLogin={handleLogin} />
-            )}
-            <div className="toggle-container">
-              <div className="toggle">
-                <div className="toggle-panel toggle-left">
-                  <h1>¡Bienvenido de nuevo!</h1>
-                  <p>Introduce tu información para iniciar sesión</p>
-                  <button onClick={toggleForm}>Inicia sesión</button>
-                </div>
-                <div className="toggle-panel toggle-right">
-                  <h1>¡Hola, Jugador!</h1>
-                  <p>Introduce tu información para registrarte</p>
-                  <button onClick={toggleForm}>Regístrate</button>
+        {/* ----------------------------
+            Ruta para Login / Registro  
+           ---------------------------- */}
+        <Route
+          path="/login"
+          element={
+            <div className="login-wrapper">
+              <div className={`container ${isSignUp ? 'active' : ''}`}>
+                {isSignUp ? (
+                  <RegisterPage handleLogin={handleLogin} />
+                ) : (
+                  <LoginPage handleLogin={handleLogin} />
+                )}
+
+                <div className="toggle-container">
+                  <div className="toggle">
+                    <div className="toggle-panel toggle-left">
+                      <h1>¡Bienvenido de nuevo!</h1>
+                      <p>Introduce tu información para iniciar sesión</p>
+                      <button onClick={toggleForm}>Inicia sesión</button>
+                    </div>
+                    <div className="toggle-panel toggle-right">
+                      <h1>¡Hola, Jugador!</h1>
+                      <p>Introduce tu información para registrarte</p>
+                      <button onClick={toggleForm}>Regístrate</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        } />
+          }
+        />
 
-        {/* Ruta para la página del registro */}
-        <Route path="/register" element={<RegisterPage handleLogin={handleLogin} />} />
+        {/* ----------------------------
+            Ruta standalone de Register  
+           ---------------------------- */}
+        <Route
+          path="/register"
+          element={
+            <div className="login-wrapper">
+              <div className="container active">
+                <RegisterPage handleLogin={handleLogin} />
+                {/* Si quieres mantener toggle, puedes duplicarlo aquí */}
+              </div>
+            </div>
+          }
+        />
 
-        {/* Ruta para la página del juego (protegida por PrivateRoute) */}
-        <Route path="/game" element={
-          isLoggedIn ? (
-            <GamePage handleLogout={handleLogout} />
-          ) : (
-            <Navigate to="/login" /> // Redirige a login si no está logueado
-          )
-        } />
+        {/* ----------------------------
+            Ruta protegida /game       
+           ---------------------------- */}
+        <Route
+          path="/game"
+          element={
+            isLoggedIn ? (
+              <GamePage handleLogout={handleLogout} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
 
-        {/* Redirige a login si no existe la ruta */}
-        <Route path="/" element={<Navigate to="/login" />} />
+        {/* ----------------------------
+            Redirección por defecto      
+           ---------------------------- */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </AuthProvider>
   );
 }
 
 export default App;
-
 
 //import React from 'react';
 //import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';

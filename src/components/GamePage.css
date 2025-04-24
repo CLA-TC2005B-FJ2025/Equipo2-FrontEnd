@@ -1,0 +1,13 @@
+/* Contenedor flex para grid + leaderboard */
+.game-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;    /* espacio entre ambas columnas */
+    padding: 20px;
+  }
+  
+  /* La parte del juego ocupa todo el espacio restante */
+  .game-main {
+    flex: 1;
+  }
+  

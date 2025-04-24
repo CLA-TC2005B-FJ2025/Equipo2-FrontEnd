@@ -3,12 +3,11 @@ import React from 'react';
 function HowToPlay() {
   return (
     <section className="section-white">
-      <h2>¿Cómo se juega?</h2>
+      <h2>¿Cómo jugar?</h2>
       <p>
-        El jugador elige un pixel para revelar y responde una pregunta.
-        Si la responde correctamente, se quita el recuadro y gana un boleto 
-        para entrar a un sorteo por el Premio B. Si adivina
-        la imagen antes de que se revele por completo, gana un premio especial (Premio A).
+        El juego **Pixel x Pixel** consiste en adivinar una imagen revelada poco a poco, pixel por pixel. 
+        El jugador selecciona un píxel y responde una pregunta para ganar un boleto para el sorteo del Premio B. 
+        Si adivina la imagen antes de que se revele por completo, ganará un Premio A.
       </p>
     </section>
   );
