@@ -3,7 +3,7 @@ import React from 'react';
 function Footer() {
   return (
     <footer>
-      <p>© Lienzo. All rights reserved.</p>
+      <p>© Lienzo. Todos los derechos reservados.</p>
     </footer>
   );
 }

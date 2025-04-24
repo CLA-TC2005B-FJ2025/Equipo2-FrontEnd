@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'; // Usamos Routes y R
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import GamePage from './components/GamePage'; // Página del juego
+import { AuthProvider } from './contexts/AuthContext'; // Importa el contexto de autenticación
 
 function App() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -22,7 +23,7 @@ function App() {
   };
 
   return (
-    <div>
+    <AuthProvider>
       <Routes>
         {/* Ruta de inicio de sesión */}
         <Route path="/login" element={
@@ -49,7 +50,10 @@ function App() {
           </div>
         } />
 
-        {/* Ruta para la página del juego */}
+        {/* Ruta para la página del registro */}
+        <Route path="/register" element={<RegisterPage handleLogin={handleLogin} />} />
+
+        {/* Ruta para la página del juego (protegida por PrivateRoute) */}
         <Route path="/game" element={
           isLoggedIn ? (
             <GamePage handleLogout={handleLogout} />
@@ -61,11 +65,12 @@ function App() {
         {/* Redirige a login si no existe la ruta */}
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
-    </div>
+    </AuthProvider>
   );
 }
 
 export default App;
+
 
 //import React from 'react';
 //import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';

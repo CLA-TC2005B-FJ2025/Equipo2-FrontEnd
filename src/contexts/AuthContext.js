@@ -11,31 +11,28 @@ export const AuthProvider = ({ children }) => {
     return storedUser ? storedUser : null;
   });
 
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000'; // Valor por defecto
-  console.log(apiBaseUrl);
+  // Ruta local para el archivo JSON
+  const usersJsonPath = '/users.json';
 
   const login = useCallback(async (username, password) => {
     try {
-      const response = await fetch(`${apiBaseUrl}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(usersJsonPath);
+      const users = await response.json();
 
-      if (response.ok) {
+      // Busca al usuario en el archivo JSON
+      const foundUser = users.find(user => user.username === username && user.password === password);
+
+      if (foundUser) {
         setUser(username);
         // Guarda el username en una cookie
         Cookies.set('username', username, { expires: 7 }); // Expira en 7 días
         return true;
       } else {
-        const data = await response.json();
-        console.error('Inicio con error:', data.error);
+        console.error('Usuario o contraseña incorrectos');
         return false;
       }
     } catch (error) {
-      console.error('Error durante inicio:', error);
+      console.error('Error durante login:', error);
       return false;
     }
   }, []);

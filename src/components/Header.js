@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
     <header>
       <div className="logo">
-        <img src="/lienzo-logo.png" alt="Logo Lienzo" />
+        <img src="img/lienzo-logo.png" alt="Logo Lienzo" />
       </div>
       <nav>
         <ul>
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/pixelxpixel">Pixel x Pixel</a></li>
-          <li><a href="/login">Registrarse / Iniciar Sesión</a></li>
+          <li><Link to="/game">Juego</Link></li>
+          <li><Link to="/howtoplay">¿Cómo jugar?</Link></li>
+          <li><button onClick={() => {}}>Cerrar sesión</button></li>
         </ul>
       </nav>
     </header>

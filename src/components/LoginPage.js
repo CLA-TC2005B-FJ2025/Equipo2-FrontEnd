@@ -1,13 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Importar Link
+import { Link, useNavigate } from 'react-router-dom'; // Usamos useNavigate para redirigir
 
 function LoginPage({ handleLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Para mostrar el error si no se encuentra el usuario
+  const navigate = useNavigate(); // Usamos navigate para redirigir al usuario a otra página después del login
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleLogin(); // Simula el login
+
+    // Leemos el archivo users.json
+    try {
+      const response = await fetch('/users.json');
+      const users = await response.json();
+
+      // Buscar el usuario en el archivo JSON
+      const user = users.find(user => user.email === email && user.password === password);
+
+      if (user) {
+        handleLogin(); // Simula el login
+        navigate('/game'); // Redirige a la página del juego después de iniciar sesión
+      } else {
+        setErrorMessage('Usuario o contraseña incorrectos');
+      }
+    } catch (error) {
+      console.error('Error al leer el archivo de usuarios:', error);
+    }
   };
 
   return (
@@ -32,10 +51,13 @@ function LoginPage({ handleLogin }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit">Iniciar sesión</button>
       </form>
 
-      {/* Enlace para redirigir a otra página */}
+      {/* Mostrar mensaje de error si las credenciales son incorrectas */}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
+      {/* Enlace para redirigir a la página de registro */}
       <div className="redirect">
         <p>¿No tienes cuenta? <Link to="/register">Regístrate aquí</Link></p>
       </div>
