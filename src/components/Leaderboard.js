@@ -15,7 +15,7 @@ function Leaderboard() {
     <aside className="leaderboard">
       <div className="head">
         <i className="fas fa-crown"></i>
-        <h1>Most Active Players</h1>
+        <h1>Jugadores con mayor Puntaje</h1>
       </div>
       <div className="body">
         <ol>

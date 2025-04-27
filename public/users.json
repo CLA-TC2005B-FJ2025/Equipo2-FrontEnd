@@ -1,11 +1,12 @@
 [
-    {
-      "email": "user1@example.com",
-      "password": "password1"
-    },
-    {
-      "email": "user2@example.com",
-      "password": "password2"
-    }
-  ]
-  
+  {
+    "email": "usuario1@ejemplo.com",
+    "password": "password123",
+    "puntaje": 0
+  },
+  {
+    "email": "admin@ejemplo.com",
+    "password": "admin123",
+    "puntaje": 10
+  }
+]
