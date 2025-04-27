@@ -4,47 +4,57 @@ import Cookies from 'js-cookie';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(() => Cookies.get('username') || null);
 
-  const [user, setUser] = useState(() => {
-    // Intenta obtener el usuario de las cookies al cargar el componente
-    const storedUser = Cookies.get('username');
-    return storedUser ? storedUser : null;
-  });
+  // <-- AÑADIMOS FALLBACK AQUÍ
+  const apiBase = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5500';
 
-  // Ruta local para el archivo JSON
-  const usersJsonPath = '/users.json';
-
-  const login = useCallback(async (username, password) => {
+  const login = useCallback(async (correo, contrasena) => {
     try {
-      const response = await fetch(usersJsonPath);
-      const users = await response.json();
-
-      // Busca al usuario en el archivo JSON
-      const foundUser = users.find(user => user.username === username && user.password === password);
-
-      if (foundUser) {
-        setUser(username);
-        // Guarda el username en una cookie
-        Cookies.set('username', username, { expires: 7 }); // Expira en 7 días
-        return true;
-      } else {
-        console.error('Usuario o contraseña incorrectos');
+      const resp = await fetch(`${apiBase}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo, contrasena })
+      });
+      if (!resp.ok) {
+        console.error('Login error:', await resp.json());
         return false;
       }
-    } catch (error) {
-      console.error('Error durante login:', error);
+      const data = await resp.json();
+      setUser(data.correo);
+      Cookies.set('username', data.correo, { expires: 7 });
+      return true;
+    } catch (e) {
+      console.error('Login exception:', e);
       return false;
     }
-  }, []);
+  }, [apiBase]);
+
+  const register = useCallback(async (correo, contrasena) => {
+    try {
+      const resp = await fetch(`${apiBase}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ correo, contrasena })
+      });
+      if (!resp.ok) {
+        console.error('Register error:', await resp.json());
+        return false;
+      }
+      return true;
+    } catch (e) {
+      console.error('Register exception:', e);
+      return false;
+    }
+  }, [apiBase]);
 
   const logout = useCallback(() => {
     setUser(null);
-    // Elimina la cookie del username al cerrar sesión
     Cookies.remove('username');
   }, []);
-  
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
