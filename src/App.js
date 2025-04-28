@@ -1,11 +1,11 @@
+// src/App.js
 import React, { useState } from 'react';
 import './style.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
-+ import GamePage   from './components/GamePage';
-
+import GamePage from './components/GamePage';
 import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
@@ -21,19 +21,60 @@ function App() {
       <Routes>
 
         {/* LOGIN / REGISTER */}
-        <Route path="/login" element={/* ... tu wrapper ... */} />
+        <Route
+          path="/login"
+          element={
+            <div className="login-wrapper">
+              <div className={`container ${isSignUp ? 'active' : ''}`}>
 
-        {/* --- NUEVA RUTA DEL JUEGO --- */}
+                {/* SIGN IN FORM */}
+                <div className="form-container sign-in">
+                  <LoginPage onLogin={handleLogin} />
+                </div>
+
+                {/* SIGN UP FORM */}
+                <div className="form-container sign-up">
+                  <RegisterPage onSignUp={handleLogin} />
+                </div>
+
+                {/* TOGGLE PANELS */}
+                <div className="toggle-container">
+                  <div className="toggle">
+
+                    <div className="toggle-panel toggle-left">
+                      <h1>¡Hola, amigo!</h1>
+                      <p>Regístrate para descubrir nuestra aplicación</p>
+                      <button className="btn-toggle" onClick={toggleForm}>
+                        Regístrate
+                      </button>
+                    </div>
+
+                    <div className="toggle-panel toggle-right">
+                      <h1>¡Bienvenido de nuevo!</h1>
+                      <p>Introduce tus datos para iniciar sesión</p>
+                      <button className="btn-toggle" onClick={toggleForm}>
+                        Iniciar Sesión
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        />
+
+        {/* PROTECTED GAME */}
         <Route
           path="/game"
           element={
             isLoggedIn
-              ? <GamePage />
+              ? <GamePage handleLogout={handleLogout} />
               : <Navigate to="/login" replace />
           }
         />
 
-        {/* REDIRECCIÓN POR DEFECTO */}
+        {/* DEFAULT REDIRECT */}
         <Route path="*" element={<Navigate to="/login" replace />} />
 
       </Routes>
