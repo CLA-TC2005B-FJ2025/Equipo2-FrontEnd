@@ -1,5 +1,37 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment variables
+.env
+*.env
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Flask instance folder
+instance/
+
+# Logs
+*.log
+
+# Database files
+*.sqlite3
+*.db
+
+# IDE specific files
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
 # dependencies
 /node_modules
 /.pnp
