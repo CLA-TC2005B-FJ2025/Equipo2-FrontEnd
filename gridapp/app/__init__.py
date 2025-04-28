@@ -1,24 +1,23 @@
 import os
 from flask import Flask
+from flask_cors import CORS
 from flask_socketio import SocketIO
-from flask_cors import CORS        # ← Nueva línea
 from config import Config
 
-# Creamos el objeto socketio **antes** de inicializar la app
+# crea SocketIO antes de la app
 socketio = SocketIO(cors_allowed_origins="*")
 
 def init_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # --- NUEVO: habilitamos CORS en TODAS las rutas ---
-    CORS(app, resources={ r"/*": {"origins": "*"} })
+    # habilita CORS para todas las rutas
+    CORS(app)
 
-    # Registramos el blueprint **dentro** de init_app para evitar import circular
+    # registra blueprint de rutas
     from app.routes.homeRoutes import main as home_blueprint
     app.register_blueprint(home_blueprint, url_prefix="/")
 
-    # Inicializamos socketio con la app
+    # inicializa socketio
     socketio.init_app(app)
-
     return app

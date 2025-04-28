@@ -1,28 +1,15 @@
 {
-  "name": "React + Flask Devcontainer",
+  "name": "React Project",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "features": {
-    "mcr.microsoft.com/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
-    },
-    "mcr.microsoft.com/devcontainers/features/python:1": {
-      "version": "3"
     }
   },
-  "postCreateCommand": [
-    "apt-get update",
-    "apt-get install -y python3-pip python3-venv libssl-dev",
-    "pip3 install --upgrade pip setuptools wheel",
-    "pip3 install -r requirements.txt flask-socketio eventlet",
-    "npm install"
-  ],
   "customizations": {
     "vscode": {
-      "extensions": [
-        "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "ms-python.python"
-      ]
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
     }
-  }
+  },
+  "forwardPorts": [3000]
 }
