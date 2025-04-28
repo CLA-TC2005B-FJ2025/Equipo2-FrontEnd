@@ -1,4 +1,4 @@
-/* contenedor flex general */
+/* Contenedor flex si lo quieres alinear con sidebar */
 .game-wrapper {
   display: flex;
   align-items: flex-start;
@@ -9,7 +9,7 @@
   flex: 1;
 }
 
-/* grid + imagen */
+/* Grid + imagen */
 .grid-container {
   position: relative;
   width: 800px;
@@ -40,10 +40,10 @@
 }
 .cell.revealed {
   pointer-events: none;
-  background-color: transparent !important;
+  background-color: transparent!important;
 }
 
-/* modal */
+/* Modal */
 .modal-backdrop {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
