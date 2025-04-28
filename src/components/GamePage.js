@@ -1,16 +1,18 @@
+// src/components/GamePage.js
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import Header from './Header';
-import Footer from './Footer';
 import HowToPlay from './HowToPlay';
 import Leaderboard from './Leaderboard';
+import Footer from './Footer';
 
 import '../style.css';
 import './GamePage.css';
 
+// Conecta automáticamente al servidor definido en el proxy de package.json
 const socket = io();
 
-function GamePage({ handleLogout }) {
+function GamePage({ onLogout }) {
   const [matrix, setMatrix] = useState([]);
   const [revealedSet, setRevealedSet] = useState(new Set());
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +26,8 @@ function GamePage({ handleLogout }) {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
-    osc.connect(gain); gain.connect(ctx.destination);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
     osc.frequency.value = 440;
     osc.start();
     gain.gain.setValueAtTime(1, ctx.currentTime);
@@ -32,25 +35,27 @@ function GamePage({ handleLogout }) {
     setTimeout(() => osc.stop(), 200);
   };
 
-  // al montar, cargo matriz y me suscribo a socket
+  // Al montar: cargo matriz y suscribo al socket
   useEffect(() => {
     fetchMatrix();
     socket.on('pixel_revealed', handlePixelRevealed);
     return () => socket.off('pixel_revealed', handlePixelRevealed);
   }, []);
 
+  // Trae la matriz de /matrix
   async function fetchMatrix() {
     const res = await fetch('/matrix');
     const data = await res.json();
     setMatrix(data);
   }
 
+  // Cuando llega el evento, marco revelado y sueno
   function handlePixelRevealed({ row, col }) {
     setRevealedSet(prev => new Set(prev).add(`${row}-${col}`));
     playBeep();
   }
 
-  // click en celda activa
+  // Click en celda activa → abro modal
   async function onCellClick(r, c) {
     setCurrentCell({ row: r, col: c });
     const res = await fetch(`/questions/${r}/${c}`);
@@ -64,7 +69,7 @@ function GamePage({ handleLogout }) {
     setShowModal(true);
   }
 
-  // envío solo si acierto
+  // Envío al servidor *solo* si la respuesta es correcta
   function handleSubmit() {
     if (!selectedOption) {
       alert('Selecciona una opción');
@@ -83,7 +88,9 @@ function GamePage({ handleLogout }) {
 
   return (
     <div>
-      <Header />
+      {/* Pasa onLogout al Header */}
+      <Header onLogout={onLogout} />
+
       <HowToPlay />
 
       <div className="game-wrapper">
@@ -137,6 +144,7 @@ function GamePage({ handleLogout }) {
 
       <Footer />
 
+      {/* Modal de pregunta */}
       {showModal && questionData && (
         <div className="modal-backdrop">
           <div className="modal">
