@@ -4,11 +4,10 @@ import './Leaderboard.css';
 function Leaderboard() {
   // Datos de ejemplo
   const players = [
-    { name: 'Jerry Wood', score: 948 },
-    { name: 'Brandon Barnes', score: 750 },
-    { name: 'Raymond Knight', score: 684 },
-    { name: 'Trevor McCormick', score: 335 },
-    { name: 'Andrew Fox', score: 296 },
+    { name: 'Isma', score: 4 },
+    { name: 'Jose', score: 2 },
+    { name: 'Diego S', score: 1 },
+    { name: 'Diego T', score: 1 },
   ];
 
   return (
