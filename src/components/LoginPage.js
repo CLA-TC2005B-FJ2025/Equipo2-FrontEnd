@@ -3,6 +3,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
+import { insertIntoTable } from '../api.js';
+
 export default function LoginPage({ onLogin }) {
   const { login } = useContext(AuthContext);
   const [email, setEmail]       = useState('');
