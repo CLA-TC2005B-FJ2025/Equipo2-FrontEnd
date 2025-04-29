@@ -74,7 +74,7 @@
   cursor: default;
 }
 .cell--active {
-  background: rgba(255,255,0,0.9);
+  background: rgba(255,255,255,0.9);
   cursor: pointer;
   transition: background 0.2s;
 }
