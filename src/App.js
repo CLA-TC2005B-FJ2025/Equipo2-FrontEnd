@@ -74,6 +74,14 @@ function App() {
           }
         />
 
+        {/* PROTECTED GAME */}
+        <Route
+          path="/termino"
+          element={
+            <div>Lienzo</div>
+          }
+        />
+
         {/* DEFAULT REDIRECT */}
         <Route path="*" element={<Navigate to="/login" replace />} />
 

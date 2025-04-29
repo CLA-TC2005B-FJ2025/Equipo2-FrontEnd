@@ -1,3 +1,151 @@
+/* ==== Variables de color ==== */
+:root {
+  --red:    #d00;          /* antes #c1272d */
+  --white:  #ffffff;
+  --gray-1: #f4f4f4;
+  --gray-2: #e0e0e0;
+  --gray-3: #333333;
+}
+
+/* ==== Reset básico ==== */
+.page-wrapper {
+  font-family: 'Inter', sans-serif;
+  color: var(--gray-3);
+  /* fondo degradado rojo-rosa */
+  background: linear-gradient(to right, #e2e2e2, #ffc4c4);
+  min-height: 100vh;
+}
+
+/* ==== Layout principal ==== */
+.game-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.grid-card {
+  flex: 1 1 600px;
+  /* casi blanco para dejar asomar el degradado */
+  background: rgba(255,255,255,0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-title {
+  margin-bottom: 1rem;
+  color: var(--red);
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* ==== Grid de píxeles ==== */
+.grid-area {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  background: #000;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#result-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.grid-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: grid;
+}
+
+.cell {
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: default;
+}
+.cell--active {
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cell--active:hover {
+  background: rgba(255,255,255,0.2);
+}
+.cell--revealed {
+  background: transparent;
+  cursor: default;
+}
+
+/* ==== Botones ==== */
+.btn {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btn-guess {
+  background: var(--red);
+  color: var(--white);
+  margin-top: 1.5rem;
+}
+.btn-guess:hover {
+  transform: scale(1.05);
+}
+
+.btn-submit {
+  background: var(--red);
+  color: var(--white);
+  margin-top: 1rem;
+  width: 100%;
+}
+.btn-submit:hover {
+  transform: scale(1.02);
+}
+
+/* ==== Modal de pregunta ==== */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.option-label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.option-label input {
+  margin-right: 0.5rem;
+}
+
 /* Contenedor flex si lo quieres alinear con sidebar */
 .game-wrapper {
   display: flex;
@@ -15,35 +163,35 @@
   width: 800px;
   height: 800px;
 }
-#result-image {
+.grid-container #result-image {
   display: block;
   width: 100%;
   height: 100%;
 }
-.grid-overlay {
+.grid-container .grid-overlay {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   display: grid;
   pointer-events: none;
 }
-.cell {
+.grid-container .cell {
   box-sizing: border-box;
   border: 1px solid rgba(255,255,255,0.1);
 }
-.cell.active {
+.grid-container .cell.active {
   pointer-events: auto;
 }
-.cell.active:hover {
+.grid-container .cell.active:hover {
   background-color: rgba(128,255,128,0.9);
   cursor: pointer;
 }
-.cell.revealed {
+.grid-container .cell.revealed {
   pointer-events: none;
   background-color: transparent!important;
 }
 
-/* Modal */
+/* Modal (segunda parte) */
 .modal-backdrop {
   position: fixed; top: 0; left: 0;
   width: 100%; height: 100%;
@@ -71,4 +219,21 @@
   border: none; padding: 10px 15px;
   border-radius: 4px; cursor: pointer;
   width: 100%; font-size: 1em;
+}
+
+/* ==== PARCHES PARA SELECCIÓN DE PIXELES ==== */
+/* reactivar clicks sólo en la primera rejilla (.grid-area) */
+.grid-area .grid-overlay {
+  pointer-events: auto;
+}
+
+/* bloquear clicks sólo en la rejilla grande (.grid-container) */
+.grid-container .grid-overlay {
+  pointer-events: none;
+}
+
+/* asegurar clics en celdas activas */
+.cell--active,
+.cell.active {
+  pointer-events: auto;
 }
