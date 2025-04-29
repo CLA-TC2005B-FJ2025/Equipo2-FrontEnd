@@ -74,12 +74,12 @@
   cursor: default;
 }
 .cell--active {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,0,0.9);
   cursor: pointer;
   transition: background 0.2s;
 }
 .cell--active:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(128,255,128,0.9);
 }
 .cell--revealed {
   background: transparent;
