@@ -80,7 +80,7 @@ Equipo2-FrontEnd/
 ## ¿Cómo funciona la autenticación?
 
 * Se utiliza **React Context API** (`AuthContext.js`) con **js-cookie** para persistir la sesión.
-* En **LoginPage** se validan credenciales contra `public/users.json` (simulación).
+* En **LoginPage** se validan credenciales contra `public/users.json` 
 * Un usuario autenticado puede acceder a `/game` gracias a `react-router-dom`.
 
 ## Descripción Técnica del Juego
